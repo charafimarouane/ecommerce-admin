@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+img{
+  max-height: 100%;
+}
 
 input, textarea{
   @apply border  rounded-md p-1 w-full ;
