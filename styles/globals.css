@@ -6,18 +6,18 @@ img{
   max-height: 100%;
 }
 
-input, textarea{
+input, textarea, select{
   @apply border  rounded-md p-1 w-full ;
   @apply mb-2;
 }
-input:focus, textarea:focus{
+input:focus, textarea:focus, select:focus{
   @apply border-blue-900;
 }
 h1{
   @apply text-blue-900 mb-2 text-xl;
 }
 label{
-  @apply text-blue-900;
+  @apply text-blue-900 text-xl;
 }
 .btn-primary{
   @apply bg-blue-900 text-white px-4 py-1 rounded-md;
