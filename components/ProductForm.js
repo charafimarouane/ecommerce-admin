@@ -12,6 +12,7 @@ export default function ProductForm({
     price: existingPrice,
     images: existingImages,
     category: assignedCategory,
+    properties: assignedProperties,
     }){
 
         const [title, setTitle] = useState(existingTitle || '')
@@ -22,6 +23,7 @@ export default function ProductForm({
         const [isUploading, setIsUploading] = useState(false)
         const [categories , setCategories] = useState([])
         const [category, setCategory] = useState(assignedCategory || '')
+        const [productProperties, setProductProperties] = useState(assignedProperties || {})
         const router = useRouter()
       
         useEffect(()=>{
@@ -32,7 +34,7 @@ export default function ProductForm({
 
         async function saveProduct(ev){
             ev.preventDefault();
-            const data = {title, description, price, images, category}
+            const data = {title, description, price, images, category, properties:productProperties}
 
             if (_id) {
                 //update
@@ -67,6 +69,25 @@ export default function ProductForm({
         function updateImagesOrder(images){
             setImages(images)
         }
+
+        function setProductProp(propName, value) {
+            setProductProperties(prev => {
+                const newProductProps = {...prev}
+                newProductProps[propName] = value
+                return newProductProps
+            })
+        }
+
+        const propertiestoFill = []
+        if (categories.length > 0 && category) {
+            let catInfo = categories.find(({_id}) => _id === category)
+            propertiestoFill.push(...catInfo.properties);
+            while (catInfo?.parent?._id) {
+                const parentCat = categories.find(({_id}) => _id === catInfo?.parent?._id)
+                propertiestoFill.push(...parentCat.properties)
+                catInfo = parentCat
+            }
+        }
         
         return(
  
@@ -87,6 +108,21 @@ export default function ProductForm({
                             <option value={c._id}>{c.name}</option>
                         ))}
                     </select>
+                    {propertiestoFill.length > 0 && propertiestoFill.map(p => (
+                        <div className="flex gap-1">
+                            <div className="">{p.name}</div>
+                            <select 
+                                value={productProperties[p.name]}
+                                onChange={ev => 
+                                    setProductProp(p.name, ev.target.value)
+                                    }>
+                                {p.values.map(v => (
+                                    <option value={v}>{v}</option>
+                                ))}
+                            </select>
+                        </div>
+                    )
+                    )}
                     <label>
                         Photos
                     </label>
