@@ -183,10 +183,10 @@ function Categories({swal}){
                                 <td className="flex gap-1">
                                     <button
                                         onClick={() => editCategory(category)} 
-                                        className="btn-primary"
+                                        className="btn-default"
                                     >Edit</button>
                                     <button 
-                                        className="btn-primary"
+                                        className="btn-red"
                                         onClick={() => deleteCategory(category)}
                                     >Delete</button>
                                 </td>

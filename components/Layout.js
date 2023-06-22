@@ -9,7 +9,7 @@ export default function Layout({children}) {
 
   if(!session){
     return (
-      <div className='bg-bgGray w-screen h-screen flex items-center'>
+      <div className='bg-primary w-screen h-screen flex items-center'>
         <div className='text-center w-full'>
           <button
           onClick={() => signIn('google')}
@@ -33,7 +33,7 @@ export default function Layout({children}) {
       </div>
       <div className="flex">
       <Nav show={showNav}/>
-      <div className="bg-white flex-grow mt-2 mr-2 mb-2 rounded-lg p-4 text-black">
+      <div className="flex-grow p-4">
         {children}
       </div>
     </div>
