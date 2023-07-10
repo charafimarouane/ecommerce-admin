@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import Spinner from './Spinner'
 import { ReactSortable } from "react-sortablejs"
+// import { ReactSortable } from "react-sortablejs"
 
 
 export default function ProductForm({
@@ -71,12 +72,13 @@ export default function ProductForm({
         }
 
         function setProductProp(propName, value) {
-            setProductProperties(prev => {
-                const newProductProps = {...prev}
-                newProductProps[propName] = value
-                return newProductProps
-            })
-        }
+            setProductProperties((prev) => {
+              const newProductProps = { ...prev };
+              newProductProps[propName] = Array.isArray(value) ? value : [value];
+              return newProductProps;
+            });
+          }
+
 
         const propertiestoFill = []
         if (categories.length > 0 && category) {
@@ -88,6 +90,7 @@ export default function ProductForm({
                 catInfo = parentCat
             }
         }
+        
         
         return(
  
@@ -102,29 +105,41 @@ export default function ProductForm({
                     <label>Category</label>
                     <select 
                       value={category}
+                      
                       onChange={(ev)=> setCategory(ev.target.value)}>
                         <option value="">Uncategorized</option>
                         {categories.length > 0 && categories.map(c => (
                             <option value={c._id}>{c.name}</option>
                         ))}
                     </select>
-                    {propertiestoFill.length > 0 && propertiestoFill.map(p => (
-                        <div className="" key={p._id}>
-                            <label>{p.name[0].toUpperCase()+p.name.substring(1)}</label>
-                            <div>
-                                <select 
-                                    value={productProperties[p.name]}
-                                    onChange={ev => 
-                                        setProductProp(p.name, ev.target.value)
-                                        }>
-                                    {p.values.map(v => (
-                                        <option value={v}>{v}</option>
-                                    ))}
-                                </select>
+                        {propertiestoFill.length > 0 &&
+                            propertiestoFill.map((p) => (
+                                <div className="" key={p._id}>
+                                <label className="font-bold">{p.name[0].toUpperCase() + p.name.substring(1)}</label>
+                                <div>
+                                    {p.values.map((v) => (
+                                    <div className="flex w-[100px]" key={v}>
+                                        <input
+                                        className="flex justify-center items-center my-auto w-[40px]"
+                                        type="checkbox"
+                                        name={v}
+                                        value={v}
+                                        checked={productProperties[p.name]?.includes(v)}
+                                        onChange={(ev) => {
+                                            const isChecked = ev.target.checked;
+                                            setProductProp(
+                                            p.name,
+                                            isChecked
+                                                ? [...(productProperties[p.name] || []), v]
+                                                : productProperties[p.name]?.filter((value) => value !== v)
+                                    )}}
+                                />
+                                <label>{v}</label>
                             </div>
+                            ))}
                         </div>
-                    )
-                    )}
+                        </div>
+                    ))}
                     <label>
                         Photos
                     </label>
