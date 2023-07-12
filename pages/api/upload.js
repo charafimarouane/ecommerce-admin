@@ -5,7 +5,7 @@ import fs from 'fs';
 import mime from 'mime-types';
 import {mongooseConnect} from "@/lib/mongoose";
 import { isAdminRequest } from './auth/[...nextauth]';
-const bucketName = 'ecommerce-app-next';
+const bucketName = 'bershito';
 
 export default async function handle(req,res) {
   await mongooseConnect();
