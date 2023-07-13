@@ -11,6 +11,7 @@ export default function ProductForm({
     title: existingTitle,
     description: existingDesctiption,
     price: existingPrice,
+    discount: existingDiscount,
     images: existingImages,
     category: assignedCategory,
     properties: assignedProperties,
@@ -19,6 +20,7 @@ export default function ProductForm({
         const [title, setTitle] = useState(existingTitle || '')
         const [description, setDescripton] = useState(existingDesctiption || '')
         const [price, setPrice] = useState(existingPrice || '')
+        const [discount, setDiscount] = useState(existingDiscount || '')
         const [images, setImages] = useState(existingImages || [])
         const [goToProducts, setGoToProducts] = useState(false)
         const [isUploading, setIsUploading] = useState(false)
@@ -35,7 +37,7 @@ export default function ProductForm({
 
         async function saveProduct(ev){
             ev.preventDefault();
-            const data = {title, description, price, images, category, properties:productProperties}
+            const data = {title, description, price, discount, images, category, properties:productProperties}
 
             if (_id) {
                 //update
@@ -179,6 +181,8 @@ export default function ProductForm({
                     placeholder="price"
                     value={price}
                     onChange={ev => setPrice(ev.target.value)}/>
+                    <label>Discount</label>
+                    <input placeholder="discount" type="number" value={discount} onChange={ev => setDiscount(ev.target.value)}/>
                     <button type="submit" className="btn-primary">Save</button>
                     </form>
  
